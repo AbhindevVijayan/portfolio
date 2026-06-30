@@ -81,37 +81,4 @@ Test it runs:
 python server.py
 ```
 
-### Wiring it into Claude Desktop / Claude Code
-
-Add to your MCP client config (e.g. `claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "portfolio-manager": {
-      "command": "/absolute/path/to/mcp_server/venv/bin/python",
-      "args": ["/absolute/path/to/mcp_server/server.py"],
-      "env": {
-        "PORTFOLIO_BASE_URL": "http://127.0.0.1:8000",
-        "MCP_API_KEY": "same-value-as-django-.env"
-      }
-    }
-  }
-}
-```
-
-Once connected, you (or Claude) can say things like "add a new project
-called X" or "show me unread contact messages" and the tool calls hit your
-live Django/MySQL backend directly.
-
-## Going to production
-
-- Set `DJANGO_DEBUG=False`, a real `DJANGO_SECRET_KEY`, and proper
-  `DJANGO_ALLOWED_HOSTS`.
-- Put Django behind gunicorn/uwsgi + nginx (or your host of choice), with
-  MySQL on a managed instance or same box.
-- Run `python manage.py collectstatic` and serve `staticfiles/` via nginx.
-- Generate a strong random `MCP_API_KEY` and keep it out of source control —
-  it's a bearer token for write access to your site's content.
-- The MCP server should only run somewhere you trust (your laptop, a
-  private box) since it holds that key — don't expose it publicly.
+\
